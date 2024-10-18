@@ -3,7 +3,7 @@ var app = express()
 var bodyparser = require('body-parser')
 
 app.listen(3000, function () {
-    console.log('start, asdasd')
+    console.log('server is start')
 })
 
 app.use(express.static('public'))
@@ -29,4 +29,12 @@ app.post('/email_post', function (req, res) {
         // res.send('Welcom ' + req.body.email)
         res.render('email.ejs',{'email':req.body.email})
     }
+})
+
+app.post('/ajax_send_email',function (req,res){
+    console.log(req.body.email)
+
+    //check validation about input value => sleect db
+    var responseData = {'result':'ok','email':req.body.email}
+    res.json(responseData);
 })
