@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>email form</title>
+</head>
+<body>
+
+<form>
+검색어 입력 : <input type="text" name="search_string">
+</form>
+<button class="search">search</button>
+
+<div class ="result"> </div>
+
+<script>
+    document.querySelector('.search').addEventListener('click', function () {
+        var inputdata = document.forms[0].elements[0].value;
+        sendAjax('http://localhost:3000/search_post', inputdata)
+    })
+
+    function sendAjax(url, data) {
+        var data = {'search_string': data};
+        var stringData = JSON.stringify(data);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        xhr.setRequestHeader('Content-Type',"application/json");
+        xhr.send(stringData);
+        xhr.addEventListener('load',function (){
+            var result = JSON.parse(xhr.responseText);
+
+            if(result.result !== "ok") return;
+
+            document.querySelector(".result").innerHTML = '<h1>검색결과</h1><br>' +'<h2>검색어 :'+ result.search_string+'</h2>'+'<h3>내용</h3><br>'+ result.search_result;
+        })
+    }
+</script>
+</body>
+</html>
