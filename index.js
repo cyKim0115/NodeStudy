@@ -1,13 +1,13 @@
 var express = require('express')
 var app = express()
 var bodyparser = require('body-parser')
-var mysql = require('mysql')
+var mysql = require('mysql2')
 
 var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'asdf1234',
+    password: 'Megum1ng!',
     database: 'jsman'
 })
 
@@ -45,9 +45,25 @@ app.post('/email_post', function (req, res) {
 app.post('/ajax_send_email',function (req,res){
     console.log(req.body.email)
 
-    //check validation about input value => sleect db
-    var responseData = {'result':'ok','email':req.body.email}
-    res.json(responseData);
+    var email = req.body.email
+    var responseData = {}
+
+    var query = connection.query(`select name from user where email="${email}"`, function (err, rows) {
+        if(err) throw err
+
+        if(rows[0]){
+            console.log(rows[0].name)
+            responseData.result = "ok"
+            responseData.name = rows[0].name
+        }
+        else
+        {
+            responseData.result="none"
+            responseData.name = ""
+        }
+
+        res.json(responseData)
+    })
 })
 
 app.get('/search',function (req,res){
