@@ -1,9 +1,8 @@
 var express = require('express')
 var app = express()
 var bodyparser = require('body-parser')
-var mysql = require('mysql2')
-var main = require('./router/main')
-var email = require('./router/email')
+
+var router = require('./router/index');
 
 app.listen(3000, function () {
     console.log('server is start')
@@ -14,8 +13,7 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
-app.use('/main', main)
-app.use('/email',email)
+app.use(router)
 
 app.get('/', function (req, res) {
     console.log('test123')
