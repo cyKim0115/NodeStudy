@@ -17,7 +17,7 @@ connection.connect();
 
 // Router
 router.get('/form', function (req, res) {
-    res.sendFile(path.join(__dirname, '../public/form.html'))
+    res.sendFile(path.join(__dirname, '../../public/form.html'))
 })
 
 router.post('/form', function (req, res) {
