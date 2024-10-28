@@ -27,9 +27,13 @@ router.post('/', function (req, res) {
     var name = body.name
     var password = body.password
 
-    var query = connection.query(`insert into user (email,name,pw) values ("${email}","${name}","${password}")`, function (err, rows) {
-        if(err) {throw err;}
-        console.log("ok db insert")
+    var sql = {email: email, name: name, pw: password}
+    var query = connection.query('insert into user set ?', sql, function (err, rows) {
+        if (err) {
+            throw err;
+        }
+        // console.log("ok db insert", rows.insertId, name)
+        res.render('welcome.ejs',{'name':name,'id':rows.insertId})
     })
 })
 
