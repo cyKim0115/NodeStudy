@@ -4,7 +4,7 @@ var app = express()
 var bodyparser = require('body-parser')
 var router = require('./router/index');
 var passport= require('passport');
-var LocalStrategy = require('passport-local').strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var flash = require('connect-flash');
 
@@ -17,8 +17,18 @@ app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+}))
+app.use(passport.initialize)
+app.use(passport.session)
+app.use(flash)
+
 app.use(router)
 
+/*
 app.get('/', function (req, res) {
     console.log('test123')
     res.sendFile(__dirname + '/public/main.html')
@@ -47,3 +57,4 @@ app.post('/search_post', function (req, res) {
 
     res.json(responseData)
 })
+ */

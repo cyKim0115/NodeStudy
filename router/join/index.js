@@ -3,6 +3,8 @@ var app = express()
 var router = express.Router()
 var path = require('path')
 const mysql = require("mysql2");
+var passport= require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 // Database Setting
 var connection = mysql.createConnection({
@@ -22,6 +24,15 @@ router.get('/', function (req, res) {
     res.render('join.ejs');
 })
 
+passport.use('local-join', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true,
+}, function (req, email, password, done) {
+    console.log('local-join callback called')
+}))
+
+/*
 router.post('/', function (req, res) {
     var body = req.body
     var email = body.email
@@ -37,5 +48,6 @@ router.post('/', function (req, res) {
         res.render('welcome.ejs',{'name':name,'id':rows.insertId})
     })
 })
+*/
 
 module.exports = router
