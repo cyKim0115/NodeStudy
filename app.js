@@ -2,8 +2,11 @@
 var express = require('express')
 var app = express()
 var bodyparser = require('body-parser')
-
 var router = require('./router/index');
+var passport= require('passport');
+var LocalStrategy = require('passport-local').strategy;
+var session = require('express-session');
+var flash = require('connect-flash');
 
 app.listen(3000, function () {
     console.log('server is start')

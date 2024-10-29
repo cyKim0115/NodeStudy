@@ -10,10 +10,14 @@
   "description": "",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "connect-flash": "^0.1.1",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   }
 }
