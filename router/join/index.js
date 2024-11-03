@@ -3,7 +3,7 @@ var app = express()
 var router = express.Router()
 var path = require('path')
 const mysql = require("mysql2");
-var passport= require('passport');
+var passport= require('passport')
 var LocalStrategy = require('passport-local').Strategy;
 
 // Database Setting
@@ -30,7 +30,14 @@ passport.use('local-join', new LocalStrategy({
     passReqToCallback: true,
 }, function (req, email, password, done) {
     console.log('local-join callback called')
-}))
+})
+)
+
+router.post('/',passport.authenticate('local-join', {
+    successRedirect:'/main',
+    failureRedirect:'/join',
+    failureFlash:true})
+)
 
 /*
 router.post('/', function (req, res) {
