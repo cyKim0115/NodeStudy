@@ -2,9 +2,9 @@ var express = require('express')
 var app = express()
 var router = express.Router()
 var path = require('path')
-const mysql = require("mysql2");
+const mysql = require("mysql2")
 var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy
 
 // Database Setting
 var connection = mysql.createConnection({
@@ -22,10 +22,18 @@ router.get('/', function (req, res) {
     var msg;
     var errMsg = req.flash('error')
     if (errMsg) msg = errMsg;
-    res.render('join.ejs', {"message": msg});
+    res.render('join.ejs', {"message": msg})
 })
 
-// passport.serializeUser()
+passport.serializeUser(function (user, done) {
+    console.log('passport session save : ', user.id)
+    done(null, user)
+})
+
+passport.deserializeUser(function (user, done) {
+    console.log('passport session get id : ', user)
+    done(null, user)
+})
 
 passport.use('local-join', new LocalStrategy({
         usernameField: 'email',
