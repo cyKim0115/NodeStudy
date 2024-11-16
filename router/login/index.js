@@ -45,24 +45,31 @@ passport.use('local-login', new LocalStrategy({
 
                 if (rows.length) {
                     console.log('existed user')
-                    return done(null, false, {message: 'your email is already used'})
+                    return done(null, {'email': email, 'password': password, 'id': rows[0].UID})
                 } else {
-                    var sql = {email: email, pw: password};
-                    var query = connection.query('insert into user set ?', sql, function (err, rows) {
-                        if (err) throw err
-                        return done(null, {'email': email, 'id': rows.insertId})
-                    })
+                    return done(null, false, {message: 'your login info is not found'})
                 }
             }
         )
     })
 )
 
-router.post('/', passport.authenticate('local-join', {
-        successRedirect: '/main',
-        failureRedirect: '/join',
-        failureFlash: true
-    })
+router.post('/', function (req, res, next) {
+        passport.authenticate('local-login', function (err, user, info) {
+            if (err) return res.status(500).json(err)
+            if (!user) {
+                return res.status(401).json(info.message)
+            }
+
+            req.logIn(user, function (err) {
+                if (err) {
+                    return next(err)
+                }
+
+                return res.json(user)
+            })
+        })(req, res, next)
+    }
 )
 
 module.exports = router
