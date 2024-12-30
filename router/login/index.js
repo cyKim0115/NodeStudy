@@ -44,7 +44,6 @@ passport.use('local-login', new LocalStrategy({
                 if (err) return done(err);
 
                 if (rows.length) {
-                    console.log('existed user')
                     return done(null, {'email': email, 'password': password, 'id': rows[0].UID})
                 } else {
                     return done(null, false, {message: 'your login info is not found'})
